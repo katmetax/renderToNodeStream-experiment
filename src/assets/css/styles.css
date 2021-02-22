@@ -6,11 +6,17 @@
 h1 {
   color: #9ecb0b;
   text-transform: uppercase;
+  margin-bottom: 10px;
 }
 
 h3 {
   text-transform: uppercase;
   color: white;
+}
+
+h4 {
+  color: grey;
+  margin-block-start: 0;
 }
 
 .card-container {

@@ -15,7 +15,6 @@ const js = {
 };
 
 const serverConfig = {
-  mode: "development",
   target: "node",
   node: {
     __dirname: false,
@@ -41,14 +40,9 @@ const serverConfig = {
 };
 
 const clientConfig = {
-  mode: "development",
   target: "web",
   entry: {
     "app.js": path.resolve(__dirname, "src/client/App.js"),
-    "multipleRoutes.js": path.resolve(
-      __dirname,
-      "src/client/multipleRoutes.js"
-    ),
   },
   module: {
     rules: [

@@ -1,11 +1,12 @@
 import React from "react";
 import "../assets/css/styles.css";
 
-const App = ({ data }) => {
+const App = ({ data, renderType }) => {
   return (
     <div className="App">
       <div className="App-header">
         <h1>Rick and Morty Characters</h1>
+        <h4>rendered with {renderType}</h4>
         <div className="card-container">
           {data &&
             data.map(({ name, species, image, status, id }) => {
@@ -33,7 +34,11 @@ const App = ({ data }) => {
               );
             })}
         </div>
-        <a href="/with-react-router">with React Router</a>
+        {renderType === "renderToNodeStream" ? (
+          <a href="/render-to-string">Try RenderToString</a>
+        ) : (
+          <a href="/">Try RenderToNodeStream</a>
+        )}
       </div>
     </div>
   );

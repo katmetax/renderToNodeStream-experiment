@@ -5,7 +5,6 @@ import { StaticRouter as Router } from "react-router-dom";
 import ReactDOMServer from "react-dom/server";
 
 import App from "./client/App";
-import MultipleRoutes from "./client/MultipleRoutes";
 import fetchData from "./lib/fetchData";
 
 const app = express();
@@ -17,13 +16,14 @@ app.get("/", async (req, res) => {
   const rickAndMortyData = await fetchData();
 
   const componentStream = ReactDOMServer.renderToNodeStream(
-    <App data={rickAndMortyData} />
+    <App data={rickAndMortyData} renderType="renderToNodeStream" />
   );
 
   const htmlStart = `
   <!doctype html>
     <html>
     <head>
+    <title>RenderToNodeStream</title>
     <link rel="stylesheet" href="/static/styles.css">
     </head>
     <body>
@@ -37,8 +37,8 @@ app.get("/", async (req, res) => {
   <script>window.__INITIAL__DATA__ = ${JSON.stringify({
     rickAndMortyData,
   })}</script>
-  <script src="/static/vendors~app.js~multipleRoutes.js"></script>
     <script src="/static/app.js"></script>
+    <script src="/static/vendors~app.js"></script>
   </body>
   </html>`;
 
@@ -49,12 +49,14 @@ app.get("/", async (req, res) => {
   });
 });
 
-app.get("/with-react-router*", (req, res) => {
+app.get("/render-to-string*", async (req, res) => {
+  const rickAndMortyData = await fetchData();
+
   const context = {};
 
   const component = ReactDOMServer.renderToString(
     <Router location={req.url} context={context}>
-      <MultipleRoutes />
+      <App data={rickAndMortyData} renderType="renderToString" />
     </Router>
   );
 
@@ -62,13 +64,16 @@ app.get("/with-react-router*", (req, res) => {
   <!doctype html>
     <html>
     <head>
-      <title>document</title>
+      <title>RenderToString</title>
+      <link rel="stylesheet" href="/static/styles.css">
     </head>
     <body>
       <div id="root">${component}</div>
-      <script src="/static/vendors~app.js~multipleRoutes.js"></script>
-      <script src="/static/vendors~multipleRoutes.js"></script>
-      <script src="/static/multipleRoutes.js"></script>
+      <script>window.__INITIAL__DATA__ = ${JSON.stringify({
+        rickAndMortyData,
+      })}</script>
+      <script src="/static/app.js"></script>
+      <script src="/static/vendors~app.js"></script>
     </body>
     </html>
   `;

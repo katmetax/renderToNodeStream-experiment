@@ -30,7 +30,7 @@
     "webpack-node-externals": "^2.5.2"
   },
   "scripts": {
-    "start": "webpack --mode=production && node index.js",
+    "start": "webpack --mode=production && node dist/index.js",
     "dev": "webpack --mode=development && concurrently \"webpack --watch\" \"nodemon dist\""
   },
   "eslintConfig": {

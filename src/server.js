@@ -38,7 +38,6 @@ app.get("/", async (req, res) => {
     rickAndMortyData,
   })}</script>
     <script src="/static/app.js"></script>
-    <script src="/static/vendors~app.js"></script>
   </body>
   </html>`;
 
@@ -73,7 +72,6 @@ app.get("/render-to-string*", async (req, res) => {
         rickAndMortyData,
       })}</script>
       <script src="/static/app.js"></script>
-      <script src="/static/vendors~app.js"></script>
     </body>
     </html>
   `;

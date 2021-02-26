@@ -18,7 +18,7 @@
   },
   "scripts": {
     "dev": "webpack --mode=development && concurrently \"webpack --watch\" \"nodemon dist\"",
-    "prod": "webpack --mode=production && node dist/index.js"
+    "start": "webpack --mode=production && node dist/index.js"
   },
   "eslintConfig": {
     "extends": [

@@ -17,8 +17,8 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "dev": "webpack --mode=development && concurrently \"webpack --watch\" \"nodemon dist\"",
-    "start": "webpack --mode=production && node dist/index.js"
+    "start": "webpack --mode=production && node dist/index.js",
+    "dev": "webpack --mode=development && concurrently \"webpack --watch\" \"nodemon dist\""
   },
   "eslintConfig": {
     "extends": [

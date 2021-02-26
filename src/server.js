@@ -8,7 +8,7 @@ import App from "./client/App";
 import fetchData from "./lib/fetchData";
 
 const app = express();
-const port = 3002;
+const port = process.env.PORT || 3003;
 
 app.use("/static", express.static(path.resolve(__dirname, "static")));
 

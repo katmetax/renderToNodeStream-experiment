@@ -3,7 +3,7 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const js = {
-  test: /\.js$/,
+  test: /\.(jsx|js)$/,
   exclude: /node_modules/,
   use: {
     loader: "babel-loader",
@@ -21,7 +21,10 @@ const serverConfig = {
   },
   externals: [nodeExternals()],
   entry: {
-    "index.js": path.resolve(__dirname, "src/server.js"),
+    "index.js": path.resolve(__dirname, "src/server.jsx"),
+  },
+  resolve: {
+    extensions: [".js", ".jsx"],
   },
   module: {
     rules: [
@@ -42,7 +45,10 @@ const serverConfig = {
 const clientConfig = {
   target: "web",
   entry: {
-    "app.js": path.resolve(__dirname, "src/client/App.js"),
+    "app.js": path.resolve(__dirname, "src/index.jsx"),
+  },
+  resolve: {
+    extensions: [".js", ".jsx"],
   },
   module: {
     rules: [

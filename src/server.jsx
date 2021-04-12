@@ -11,8 +11,9 @@ const app = express();
 const port = process.env.PORT || 3003;
 
 app.use("/static", express.static(path.resolve(__dirname, "static")));
+app.use(express.static("./dist"));
 
-app.get("/", async (req, res) => {
+app.get("/", async (_req, res) => {
   const rickAndMortyData = await fetchData();
 
   const componentStream = ReactDOMServer.renderToNodeStream(
@@ -22,14 +23,19 @@ app.get("/", async (req, res) => {
   const htmlStart = `
   <!doctype html>
     <html>
-    <head>
-    <title>RenderToNodeStream</title>
-    <link rel="stylesheet" href="/static/styles.css">
-    </head>
+      <head>
+        <meta charset="UTF-8">
+        <title>RenderToNodeStream</title>
+        <link rel="preconnect" href="https://rickandmortyapi.com">
+        <link rel="dns-prefetch" href="https://rickandmortyapi.com">
+        <link rel="stylesheet preload" href="/static/styles.css" as="style">
+      </head>
     <body>
     <div id="root">`;
 
   res.write(htmlStart);
+
+  // res.flush();
 
   componentStream.pipe(res, { end: false });
 
@@ -37,7 +43,7 @@ app.get("/", async (req, res) => {
   <script>window.__INITIAL__DATA__ = ${JSON.stringify({
     rickAndMortyData,
   })}</script>
-    <script src="/static/app.js"></script>
+    <script rel="preload" src="/static/app.js" as="script"></script>
   </body>
   </html>`;
 
@@ -48,7 +54,7 @@ app.get("/", async (req, res) => {
   });
 });
 
-app.get("/render-to-string*", async (req, res) => {
+app.get("/render-to-string", async (req, res) => {
   const rickAndMortyData = await fetchData();
 
   const context = {};
@@ -63,15 +69,18 @@ app.get("/render-to-string*", async (req, res) => {
   <!doctype html>
     <html>
     <head>
+      <meta charset="UTF-8">
       <title>RenderToString</title>
-      <link rel="stylesheet" href="/static/styles.css">
+      <link rel="preconnect" href="https://rickandmortyapi.com">
+      <link rel="dns-prefetch" href="https://rickandmortyapi.com">
+      <link rel="stylesheet preload" href="/static/styles.css" as="style">
     </head>
     <body>
       <div id="root">${component}</div>
       <script>window.__INITIAL__DATA__ = ${JSON.stringify({
         rickAndMortyData,
       })}</script>
-      <script src="/static/app.js"></script>
+      <script rel="preload" src="/static/app.js" as="script"></script>
     </body>
     </html>
   `;
@@ -84,7 +93,7 @@ app.get("/render-to-string*", async (req, res) => {
   }
 });
 
-app.get("*", (req, res) => {
+app.get("*", (_req, res) => {
   res.status(404).send(`
     <html>
       <head>
